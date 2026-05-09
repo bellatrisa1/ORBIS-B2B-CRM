@@ -194,8 +194,8 @@ Tests       7 passed
 
 **Беллатриса Манкиева**
 
-[![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github)](https://github.com/bellatrisamankieva)
-[![Telegram](https://img.shields.io/badge/-Telegram-26A5E4?logo=telegram)](https://t.me/your-telegram)
+[![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github)](https://github.com/bellatrisa1)
+[![Telegram](https://img.shields.io/badge/-Telegram-26A5E4?logo=telegram)](https://t.me/bellatrix_bb)
 
 </div>
 
