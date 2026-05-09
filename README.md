@@ -15,7 +15,7 @@
 
 ---
 
-## 📸 Демо
+📸 Демо: https://orbis-b2-b-crm-kb48.vercel.app/
 
 <div align="center">
 
@@ -68,7 +68,7 @@
 ### 1. Клонируй репозиторий
 
 ```bash
-git clone https://github.com/your-username/orbis-crm.git
+git clone https://github.com/bellatrisa1/ORBIS-B2B-CRM.git
 cd orbis-crm
 ```
 
@@ -192,7 +192,7 @@ Tests       7 passed
 
 <div align="center">
 
-**Беллатриса Манкиева**
+**Белла Манкиева**
 
 [![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github)](https://github.com/bellatrisa1)
 [![Telegram](https://img.shields.io/badge/-Telegram-26A5E4?logo=telegram)](https://t.me/bellatrix_bb)
@@ -203,7 +203,7 @@ Tests       7 passed
 
 ## 📄 Лицензия
 
-MIT © 2025 Orbis CRM
+MIT © 2026 Orbis CRM
 
 ---
 
