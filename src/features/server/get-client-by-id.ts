@@ -1,59 +1,61 @@
 import 'server-only';
 import { db } from '@/shared/lib/db';
-import type { OrderComment, OrderDetails, OrderItem } from '@/types/types';
+import type { ClientAddress, ClientDetails, ClientNote } from '@/types/types';
 
-export async function getOrderById(
-  orderId: string
-): Promise<OrderDetails | null> {
-  const order = await db.getOrderById(orderId);
-  if (!order) return null;
+export async function getClientById(
+  clientId: string
+): Promise<ClientDetails | null> {
+  const client = await db.getClientById(clientId);
+  if (!client) return null;
 
-  const status = db.getOrderStatus(order.order_status_id);
-  const priority = db.getPriority(order.priority_id);
-  const clientName = db.getClientName(order.client_id);
-
-  const [items, commentsWithAuthors] = await Promise.all([
-    db.getOrderItems(orderId),
-    db.getOrderComments(orderId, 5),
+  const [contacts, addresses, notesWithAuthors] = await Promise.all([
+    db.getContactsByClientId(clientId),
+    db.getAddressesByClientId(clientId),
+    db.getNotesByClientId(clientId, 5),
   ]);
 
-  const mappedItems: OrderItem[] = items.map((i) => ({
-    orderItemId: i.order_item_id,
-    productName: i.product_name,
-    description: i.description,
-    quantity: String(i.quantity),
-    unitPrice: String(i.unit_price),
-    totalPrice: String(i.total_price),
+  const primary = contacts.find((c) => c.is_primary);
+
+  const mappedAddresses: ClientAddress[] = addresses.map((a) => ({
+    addressId: a.address_id,
+    addressType: a.address_type,
+    country: a.country,
+    city: a.city,
+    stateRegion: a.state_region,
+    postalCode: a.postal_code,
+    addressLine1: a.address_line_1,
+    addressLine2: a.address_line_2,
   }));
 
-  const mappedComments: OrderComment[] = commentsWithAuthors.map(
-    ({ comment, authorName }) => ({
-      orderCommentId: comment.order_comment_id,
-      content: comment.content,
-      isInternal: comment.is_internal,
-      createdAt: comment.created_at,
+  const mappedNotes: ClientNote[] = notesWithAuthors.map(
+    ({ note, authorName }) => ({
+      noteId: note.note_id,
+      content: note.content,
+      isInternal: note.is_internal,
+      createdAt: note.created_at,
       authorFullName: authorName,
     })
   );
 
   return {
-    orderId: order.order_id,
-    orderNumber: order.order_number,
-    clientId: order.client_id,
-    clientName: clientName ?? 'Unknown',
-    statusCode: status?.status_code ?? 'unknown',
-    statusName: status?.status_name ?? 'Unknown',
-    priorityCode: priority?.priority_code ?? null,
-    priorityName: priority?.priority_name ?? null,
-    title: order.title,
-    description: order.description,
-    totalAmount: String(order.total_amount),
-    currencyCode: order.currency_code,
-    dueDate: order.due_date,
-    createdAt: order.created_at,
-    updatedAt: order.updated_at,
-    assignedManagerId: order.assigned_manager_id,
-    items: mappedItems,
-    comments: mappedComments,
+    clientId: client.client_id,
+    companyName: client.company_name,
+    legalName: client.legal_name,
+    taxId: client.tax_id,
+    website: client.website,
+    industry: client.industry,
+    description: client.description,
+    isActive: client.is_active,
+    archivedAt: client.archived_at,
+    createdAt: client.created_at,
+    updatedAt: client.updated_at,
+    managerId: client.manager_id,
+    primaryContactName: primary
+      ? `${primary.first_name} ${primary.last_name}`
+      : null,
+    primaryContactEmail: primary?.email ?? null,
+    primaryContactPhone: primary?.phone ?? null,
+    addresses: mappedAddresses,
+    notes: mappedNotes,
   };
 }
